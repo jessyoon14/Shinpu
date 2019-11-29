@@ -3,18 +3,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 
-const User = require('./models/user.js');
-const router = require('./routes/router.js')(app, User);
+//const User = require('./models/user.js');
+//const router = require('./routes/router.js')(app, User);
 //const router = require('./posts.js');
 
 //DB connection setting
-const mongoose = require('mongoose');
-const db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', () => {
-  console.log('DB connection good.');
-})
-mongoose.connect("mongodb://localhost/shinp", { useNewUrlParser: true });
+// const mongoose = require('mongoose');
+// const db = mongoose.connection;
+// db.on('error', console.error);
+// db.once('open', () => {
+//   console.log('DB connection good.');
+// })
+// mongoose.connect("mongodb://localhost/shinp", { useNewUrlParser: true });
 
 
 //Middle ware setting
@@ -25,8 +25,8 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = require('./routes/api/posts');
-app.use('/api/posts', posts);
+const members = require('./routes/api/members');
+app.use('/members', members);
 
 const server = app.listen(8000, () => {
   console.log('server is running at port 8000');

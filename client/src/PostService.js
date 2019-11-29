@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8000/api/posts/';
+const url = 'http://localhost:8000/members/';
 
 class PostService {
     //get Posts
     static getPosts() {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.get(url);
+                const res = await axios.get(`${url}retrieve`);
                 const data = res.data;
                 resolve(
                     data.map(post => ({
@@ -23,13 +23,13 @@ class PostService {
 
     //Create Post
     static insertPost(text) {
-        return axios.post(url, {
+        return axios.post(`${url}addmember`, {
             text
         });
     }
     //Delete Post
     static deletePost(id) {
-        return axios.delete(`${url}${id}`);
+        return axios.delete(`${url}deletemember/${id}`);
     }
 }
 
