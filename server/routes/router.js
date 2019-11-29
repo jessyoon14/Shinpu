@@ -1,5 +1,4 @@
 const bodyParser = require('body-parser');
-
 module.exports = (app, User) => {
   /* parsing */
   app.use(bodyParser.json());
@@ -7,23 +6,23 @@ module.exports = (app, User) => {
 
   /* Routing */
   app.get('/', (req, res) => {
-    return res.render('log_in.html');
+    //return res.render('log_in.html');
   })
 
   app.get('/sign_up', (req, res) => {
-    res.render('sign_up.html');
+    //res.render('sign_up.html');
   });
 
   app.get('/find_pw', (req, res) => {
-    res.render('find_pw.html');
+    //res.render('find_pw.html');
   });
 
   app.get('/update_pw', (req, res) => {
-    res.render('update_pw.html')
+    //res.render('update_pw.html')
   });
 
   app.get('/delete', (req, res) => {
-    res.render('delete.html');
+    //res.render('delete.html');
   });
 
   app.get('/api/find_pw', (req, res) => {

@@ -2,8 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+
 const User = require('./models/user.js');
 const router = require('./routes/router.js')(app, User);
+//const router = require('./posts.js');
 
 //DB connection setting
 const mongoose = require('mongoose');
@@ -13,6 +15,7 @@ db.once('open', () => {
   console.log('DB connection good.');
 })
 mongoose.connect("mongodb://localhost/shinp", { useNewUrlParser: true });
+
 
 //Middle ware setting
 app.use(express.static('public/views'));
