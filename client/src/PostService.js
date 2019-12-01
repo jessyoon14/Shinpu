@@ -31,6 +31,16 @@ class PostService {
     static deletePost(id) {
         return axios.delete(`${url}deletemember/${id}`);
     }
+
+    static addChosen(arr) {
+        for (let i = 0; i < arr.length; i++) {
+            const text = arr[i].text;
+            axios.post(`${url}addchosen`, {
+                text
+            });
+        }
+        return;
+    }
 }
 
 export default PostService;

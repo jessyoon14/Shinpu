@@ -5,28 +5,20 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"
     >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
-    <h1 class="title">
-      <img class="vue-logo" src="https://vuejs.org/images/logo.png">
-      Card Shuffling
-    </h1>
-    <!-- <div class="deck">
-      <div class="card">
-        <span class="card__suit card__suit--top">♣</span>
-        <span class="card__number">A</span>
-        <span class="card__suit card__suit--bottom">♣</span>
-      </div>
-    </div>-->
+    <h1 class="title">오늘의 청소당번</h1>
     <div class="main-buttons">
       <button @click="shuffleDeck" class="button is-primary">
         Shuffle
         <i class="fas fa-random"></i>
       </button>
+      <button @click="saveChosen" class="button is-primary">
+        Save
+        <i class="fas fa-random"></i>
+      </button>
     </div>
     <transition-group :name="shuffleSpeed" tag="div" class="deck">
-      <div v-for="card in cards" :key="card.id" class="card" :class="suitColor[card.suit]">
-        <span class="card__suit card__suit--top">{{ card.suit }}</span>
-        <span class="card__number">{{ card.rank }}</span>
-        <span class="card__suit card__suit--bottom">{{ card.suit }}</span>
+      <div v-for="card in cards" :key="card.id" class="card" v-on:click="choose(card.id)">
+        <span class="card__number">{{ card.name }}</span>
       </div>
     </transition-group>
   </div>
@@ -35,40 +27,38 @@
 <script>
 //import Vue from "vue";
 import Vue from "../main.js";
+import PostService from "../PostService";
 export default {
   name: "CardsComponent",
   data() {
     return {
-      ranks: ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
-      suits: ["♥", "♦", "♠", "♣"],
       cards: [],
-      suitColor: {
-        "♠": "black",
-        "♣": "black",
-        "♦": "red",
-        "♥": "red"
-      },
+      allmembers: [],
+      error: "",
+      shuffledmembers: [],
+      chosenmembers: [],
       shuffleSpeed: "shuffleMedium"
     };
   },
-  created() {
+  async created() {
+    try {
+      this.allmembers = await PostService.getPosts();
+      this.shuffledmembers = this.allmembers;
+    } catch (err) {
+      this.error = err.message;
+    }
     this.displayInitialDeck();
   },
   methods: {
     displayInitialDeck() {
-      let id = 1;
+      //let id = 1;
       this.cards = [];
-
-      for (let s = 0; s < this.suits.length; s++) {
-        for (let r = 0; r < this.ranks.length; r++) {
-          let card = {
-            id: id,
-            rank: this.ranks[r],
-            suit: this.suits[s]
-          };
-          this.cards.push(card);
-          id++;
-        }
+      for (let i = 0; i < this.shuffledmembers.length; i++) {
+        let card = {
+          id: this.shuffledmembers[i]._id,
+          name: this.shuffledmembers[i].text
+        };
+        this.cards.push(card);
       }
     },
     shuffleDeck() {
@@ -78,6 +68,21 @@ export default {
         let temp = this.cards[i];
         Vue.$set(this.cards, i, this.cards[randomIndex]);
         Vue.$set(this.cards, randomIndex, temp);
+      }
+    },
+    choose(id) {
+      console.log(id);
+      for (let i = 0; i < this.allmembers.length; i++) {
+        if (this.allmembers[i]._id === id) {
+          this.chosenmembers.push(this.allmembers[i]);
+          console.log("Found this card!");
+          break;
+        }
+      }
+    },
+    async saveChosen() {
+      if (this.chosenmembers.length != 0) {
+        await PostService.addChosen(this.chosenmembers);
       }
     }
   }
@@ -148,8 +153,8 @@ body,
 }
 
 .card {
-  width: 75px;
-  height: 100px;
+  width: 100px;
+  height: 150px;
   float: left;
   margin-right: 5px;
   margin-bottom: 5px;

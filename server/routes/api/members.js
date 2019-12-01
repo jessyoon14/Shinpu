@@ -27,6 +27,21 @@ router.delete('/deletemember/:id', async (req, res) => {
     await posts.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
     res.status(200).send();
 });
+//add chosen member
+router.post('/addchosen', async (req, res) => {
+    const past = await loadHistoryCollection();
+    await past.insertOne({
+        text: req.body.text,
+        createdAt: new Date()
+    });
+    res.status(201).send();
+});
+
+//get history members
+router.get('/retrievehistory', async (req, res) => {
+    const historyposts = await loadHistoryCollection();
+    res.send(await historyposts.find({}).toArray());
+});
 
 async function loadPostsCollection() {
     const client = await mongodb.MongoClient.connect
@@ -38,6 +53,16 @@ async function loadPostsCollection() {
     return client.db('shinp').collection('members');
 }
 
+
+async function loadHistoryCollection() {
+    const client = await mongodb.MongoClient.connect
+        ('mongodb://localhost:27017/shinp'
+            , {
+                useNewUrlParser: true
+            });
+
+    return client.db('shinp').collection('history');
+}
 module.exports = router;
 
 
