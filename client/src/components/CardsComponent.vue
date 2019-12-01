@@ -17,7 +17,13 @@
       </button>
     </div>
     <transition-group :name="shuffleSpeed" tag="div" class="deck">
-      <div v-for="card in cards" :key="card.id" class="card" v-on:click="choose(card.id)">
+      <div
+        v-for="card in cards"
+        :key="card.id"
+        class="card place"
+        v-on:click="choose(card.id); card.clicked=!card.clicked"
+        v-bind:class="{'white':!card.clicked, 'pink':card.clicked}"
+      >
         <span class="card__number">{{ card.name }}</span>
       </div>
     </transition-group>
@@ -28,6 +34,7 @@
 //import Vue from "vue";
 import Vue from "../main.js";
 import PostService from "../PostService";
+//import $ from "jquery";
 export default {
   name: "CardsComponent",
   data() {
@@ -56,7 +63,8 @@ export default {
       for (let i = 0; i < this.shuffledmembers.length; i++) {
         let card = {
           id: this.shuffledmembers[i]._id,
-          name: this.shuffledmembers[i].text
+          name: this.shuffledmembers[i].text,
+          clicked: false
         };
         this.cards.push(card);
       }
@@ -87,11 +95,10 @@ export default {
     }
   }
 };
-// window.onload = function() {
-//   new Vue({
-//     el: "#cardgrid"
-//   });
-// };
+
+// $(".place").click(function() {
+//   $(this).toggleClass("green");
+// });
 </script>
 
 
@@ -113,6 +120,16 @@ body,
   margin-bottom: 0 !important;
   font-weight: 300;
   font-size: 3rem;
+}
+
+.place {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+}
+.place:hover,
+.place.pink {
+  background-color: pink;
 }
 
 .vue-logo {
