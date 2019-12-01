@@ -5,23 +5,25 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css"
     >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
-    <h1 class="title">오늘의 청소당번</h1>
+
     <div class="main-buttons">
       <button @click="shuffleDeck" class="button is-primary">
         Shuffle
         <i class="fas fa-random"></i>
       </button>
+      <button @click="displayInitialDeck" class="button is-primary">Reset</button>
       <button @click="saveChosen" class="button is-primary">
         Save
         <i class="fas fa-random"></i>
       </button>
+      <b-toast id="example-toast" title="저장완료" static no-auto-hide>저장했어용</b-toast>
     </div>
     <transition-group :name="shuffleSpeed" tag="div" class="deck">
       <div
         v-for="card in cards"
         :key="card.id"
         class="card place"
-        v-on:click="choose(card.id); card.clicked=!card.clicked"
+        v-on:click="choose(card.id, card.clicked); card.clicked=!card.clicked"
         v-bind:class="{'white':!card.clicked, 'pink':card.clicked}"
       >
         <span class="card__number">{{ card.name }}</span>
@@ -70,6 +72,9 @@ export default {
       }
     },
     shuffleDeck() {
+      for (let i = 0; i < this.cards.length; i++) {
+        this.cards[i].clicked = false;
+      }
       for (let i = this.cards.length - 1; i > 0; i--) {
         let randomIndex = Math.floor(Math.random() * i);
 
@@ -78,17 +83,30 @@ export default {
         Vue.$set(this.cards, randomIndex, temp);
       }
     },
-    choose(id) {
+    choose(id, cl) {
       console.log(id);
-      for (let i = 0; i < this.allmembers.length; i++) {
-        if (this.allmembers[i]._id === id) {
-          this.chosenmembers.push(this.allmembers[i]);
-          console.log("Found this card!");
-          break;
+      if (!cl) {
+        for (let i = 0; i < this.allmembers.length; i++) {
+          if (this.allmembers[i]._id === id) {
+            this.chosenmembers.push(this.allmembers[i]);
+            console.log("Found this card!");
+            break;
+          }
+        }
+      }
+      //already clicked. Now delete from chosenmembers.
+      else {
+        for (let i = 0; i < this.chosenmembers.length; i++) {
+          if (this.chosenmembers[i]._id === id) {
+            this.chosenmembers.splice(i, 1);
+            console.log("deleted a card");
+            break;
+          }
         }
       }
     },
     async saveChosen() {
+      this.$bvToast.show("example-toast");
       if (this.chosenmembers.length != 0) {
         await PostService.addChosen(this.chosenmembers);
       }

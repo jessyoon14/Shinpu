@@ -19,12 +19,15 @@
   "homepage": "https://github.com/jessyoon14/Shinpu#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "bootstrap": "^4.4.1",
+    "bootstrap-vue": "^2.1.0",
     "cors": "^2.8.5",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
     "mongodb": "^3.3.4",
-    "mongoose": "^5.7.12"
+    "mongoose": "^5.7.12",
+    "portal-vue": "^2.1.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.1"

@@ -29,10 +29,22 @@ router.delete('/deletemember/:id', async (req, res) => {
 });
 //add chosen member
 router.post('/addchosen', async (req, res) => {
+    const date = new Date();
+    const prettydate = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getDay() + 1);
     const past = await loadHistoryCollection();
     await past.insertOne({
-        text: req.body.text,
-        createdAt: new Date()
+        createdAt: prettydate,
+        p1: req.body.p1,
+        p2: req.body.p2,
+        p3: req.body.p3,
+        p4: req.body.p4,
+        p5: req.body.p5,
+        p6: req.body.p6,
+        p7: req.body.p7,
+        p8: req.body.p8,
+        p9: req.body.p9,
+        p10: req.body.p10,
+        //createdAt: new Date()
     });
     res.status(201).send();
 });
