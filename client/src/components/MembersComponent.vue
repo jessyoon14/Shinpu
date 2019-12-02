@@ -5,9 +5,9 @@
       <div>
         <label for="create-post">이름으로 멤버 추가하기</label>
       </div>
-      <input type="text" id="create-post" v-model="text" placeholder="이름">
-      <input type="nickname" id="create-post" v-model="nickname" placeholder="닉네임">
-      <button v-on:click="createPost">멤버 추가하기</button>
+      <input type="text" id="create-post" class="in" v-model="text" placeholder="이름">
+      <input type="nickname" id="create-post" class="in" v-model="nickname" placeholder="닉네임">
+      <button v-on:click="createPost" class="space">멤버 추가하기</button>
     </div>
     <!-- CREATE POST HERE -->
     <p class="error" v-if="error">{{ error }}</p>
@@ -70,11 +70,21 @@ export default {
     async createPost() {
       if (this.text === "" || this.nickname === "") {
         console.log("please fill in both fields");
+        this.$bvToast.toast("이름과 닉네임 둘 다 입력해주세요", {
+          title: "멤버를 추가할 수 없습니다",
+          autoHideDelay: 3000,
+          appendToast: true
+        });
         return;
       }
       for (let i = 0; i < this.posts.length; i++) {
         if (this.posts[i].nickname === this.nickname) {
           console.log("Nickname already exists");
+          this.$bvToast.toast("이미 존재하는 닉네임입니다", {
+            title: "멤버를 추가할 수 없습니다",
+            autoHideDelay: 3000,
+            appendToast: true
+          });
           return;
         }
       }
@@ -82,6 +92,8 @@ export default {
         console.error(err);
       });
       this.posts = await PostService.getPosts();
+      this.text = "";
+      this.nickname = "";
     },
     async deletePost(id) {
       await PostService.deletePost(id);
@@ -103,6 +115,8 @@ div.container {
   padding-top: 30px;
 }
 #rectangle {
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
   width: 100%;
   height: 40px;
   background: #ee8727;
@@ -114,7 +128,20 @@ div.container {
   float: left;
   margin-right: 10px;
   margin-bottom: 10px;
-  border-radius: 2px;
+  border-radius: 10px;
+}
+
+.in {
+  margin-right: 30px;
+}
+
+.space {
+  border-radius: 5px;
+  height: 2.5em;
+  padding: 10px;
+  color: white;
+  background: rgb(253, 172, 65);
+  margin: 10px 30px;
 }
 
 /* .place {

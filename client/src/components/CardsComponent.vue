@@ -45,8 +45,7 @@ export default {
       error: "",
       shuffledmembers: [],
       chosenmembers: [],
-      shuffleSpeed: "shuffleMedium",
-      toastCount: 0
+      shuffleSpeed: "shuffleMedium"
     };
   },
   async created() {
@@ -106,13 +105,12 @@ export default {
       }
     },
     async saveChosen() {
-      this.$bvToast.show("example-toast");
+      //this.$bvToast.show("example-toast");
       if (this.chosenmembers.length != 0) {
         await PostService.addChosen(this.chosenmembers);
       }
     },
     makeToast(append = false) {
-      this.toastCount++;
       var chosenstr = this.chosenmembers[0].text;
       for (let i = 1; i < this.chosenmembers.length; i++) {
         chosenstr = chosenstr + ", " + this.chosenmembers[i].text;
@@ -201,7 +199,8 @@ body,
 }
 
 .deck {
-  margin-left: 30px;
+  width: 80%;
+  margin: auto;
   padding-top: 30px;
 }
 
@@ -209,9 +208,9 @@ body,
   width: 100px;
   height: 150px;
   float: left;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 2px;
+  margin-right: 13px;
+  margin-bottom: 13px;
+  border-radius: 8px;
 }
 
 .card__suit {
