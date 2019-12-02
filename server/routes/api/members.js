@@ -15,11 +15,26 @@ router.get('/retrieve', async (req, res) => {
 //Add Post
 router.post('/addmember', async (req, res) => {
     const posts = await loadPostsCollection();
-    await posts.insertOne({
-        text: req.body.text,
-        createdAt: new Date()
-    });
-    res.status(201).send();
+    console.log(req.body.text);
+    posts.findOne({ nickname: req.body.nickname }, async (err, user) => {
+        if (err) {
+            console.log(err);
+            res.status(997).send();//print message here
+        }
+        else if (user != null) {
+            console.log('nickname already exists');
+            res.status(998).send();
+        }
+        else {
+            console.log(req.body.nickname);
+            await posts.insertOne({
+                text: req.body.text,
+                nickname: req.body.nickname,
+            });
+            res.status(201).send();
+        }
+    })
+
 });
 //Delete Post
 router.delete('/deletemember/:id', async (req, res) => {

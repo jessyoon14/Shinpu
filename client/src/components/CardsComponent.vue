@@ -8,12 +8,11 @@
 
     <div class="main-buttons">
       <button @click="shuffleDeck" class="button space">
-        Shuffle
+        셔플
         <i class="fas fa-random"></i>
       </button>
-      <button @click="displayInitialDeck" class="button space">Reset</button>
-      <button @click="saveChosen" class="button space">Save</button>
-      <b-toast id="example-toast" title="저장완료" static no-auto-hide>저장했어용</b-toast>
+      <button @click="displayInitialDeck" class="button space">처음으로</button>
+      <button @click="saveChosen(); makeToast();" class="button space">저장</button>
     </div>
     <transition-group :name="shuffleSpeed" tag="div" class="deck">
       <div
@@ -24,10 +23,7 @@
         v-bind:class="{'white':!card.clicked, 'pink':card.clicked}"
       >
         <span>
-          <img
-            class="vue-logo"
-            src="https://s-media-cache-ak0.pinimg.com/originals/6b/5a/8c/6b5a8cc63ce660cd4dd0bc7752f31a98.png"
-          >
+          <img class="vue-logo" src="./sparcslogo.png">
         </span>
         <span class="card__number">{{ card.name }}</span>
       </div>
@@ -49,7 +45,8 @@ export default {
       error: "",
       shuffledmembers: [],
       chosenmembers: [],
-      shuffleSpeed: "shuffleMedium"
+      shuffleSpeed: "shuffleMedium",
+      toastCount: 0
     };
   },
   async created() {
@@ -113,6 +110,18 @@ export default {
       if (this.chosenmembers.length != 0) {
         await PostService.addChosen(this.chosenmembers);
       }
+    },
+    makeToast(append = false) {
+      this.toastCount++;
+      var chosenstr = this.chosenmembers[0].text;
+      for (let i = 1; i < this.chosenmembers.length; i++) {
+        chosenstr = chosenstr + ", " + this.chosenmembers[i].text;
+      }
+      this.$bvToast.toast(`${chosenstr}`, {
+        title: "오늘의 청소당번 저장",
+        autoHideDelay: 5000,
+        appendToast: append
+      });
     }
   }
 };
@@ -147,12 +156,12 @@ body,
 }
 .place:hover,
 .place.pink {
-  background-color: pink;
+  background-color: #ffe2a3;
 }
 
 .vue-logo {
   height: 80px;
-  width: 50px;
+  width: 40px;
   margin-top: 20px;
 }
 
@@ -174,12 +183,12 @@ body,
 
 .space {
   color: white;
-  background: pink;
+  background: rgb(253, 172, 65);
   margin: 10px 30px;
 }
 .space:hover {
   color: white;
-  background: darkmagenta;
+  background: #ffc107;
 }
 .count-section {
   position: absolute;

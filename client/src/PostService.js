@@ -49,9 +49,10 @@ class PostService {
     }
 
     //Create Post
-    static insertPost(text) {
+    static insertPost(text, nickname) {
         return axios.post(`${url}addmember`, {
-            text
+            "text": text,
+            "nickname": nickname
         });
     }
     //Delete Post

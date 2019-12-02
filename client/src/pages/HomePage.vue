@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ `${date.getFullYear()}년 ${date.getMonth()+1}월 ${date.getDate()}일의 청소 당번은!?` }}</h1>
+    <h1>{{ `${date.getFullYear()}년 ${date.getMonth()+1}월 ${date.getDate()}일 청소당번 선발` }}</h1>
     <CardsComponent/>
   </div>
 </template>
@@ -34,7 +34,8 @@ export default {
   color: #2c3e50;
 }
 h1 {
-  font-size: 40px;
-  font-weight: normal;
+  font-size: 30px;
+  font-weight: 200;
+  color: #666666;
 }
 </style>
