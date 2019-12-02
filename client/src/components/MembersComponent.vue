@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Members</h1>
+    <h1>동방 청소 후보</h1>
     <div class="create-post">
       <label for="create-post">Add member with name</label>
       <input type="text" id="create-post" v-model="text" placeholder="Create a post">

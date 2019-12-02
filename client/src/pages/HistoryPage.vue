@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>History Page</h1>
+    <h1>동방 청소 기록</h1>
     <div>
       <b-table striped hover :items="items"></b-table>
     </div>

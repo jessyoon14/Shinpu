@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,7 +34,7 @@ export default {
   color: #2c3e50;
 }
 h1 {
-  font-size: 30px;
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: normal;
 }
 </style>

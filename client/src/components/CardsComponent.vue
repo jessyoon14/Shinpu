@@ -7,15 +7,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
 
     <div class="main-buttons">
-      <button @click="shuffleDeck" class="button is-primary">
+      <button @click="shuffleDeck" class="button space">
         Shuffle
         <i class="fas fa-random"></i>
       </button>
-      <button @click="displayInitialDeck" class="button is-primary">Reset</button>
-      <button @click="saveChosen" class="button is-primary">
-        Save
-        <i class="fas fa-random"></i>
-      </button>
+      <button @click="displayInitialDeck" class="button space">Reset</button>
+      <button @click="saveChosen" class="button space">Save</button>
       <b-toast id="example-toast" title="저장완료" static no-auto-hide>저장했어용</b-toast>
     </div>
     <transition-group :name="shuffleSpeed" tag="div" class="deck">
@@ -26,6 +23,12 @@
         v-on:click="choose(card.id, card.clicked); card.clicked=!card.clicked"
         v-bind:class="{'white':!card.clicked, 'pink':card.clicked}"
       >
+        <span>
+          <img
+            class="vue-logo"
+            src="https://s-media-cache-ak0.pinimg.com/originals/6b/5a/8c/6b5a8cc63ce660cd4dd0bc7752f31a98.png"
+          >
+        </span>
         <span class="card__number">{{ card.name }}</span>
       </div>
     </transition-group>
@@ -122,8 +125,6 @@ export default {
 
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700");
-
 html,
 body,
 #cards {
@@ -132,7 +133,6 @@ body,
 }
 
 .title {
-  font-family: Roboto Slab, sans-serif;
   text-align: center;
   padding-top: 30px;
   margin-bottom: 0 !important;
@@ -151,9 +151,9 @@ body,
 }
 
 .vue-logo {
-  height: 55px;
-  position: relative;
-  top: 10px;
+  height: 80px;
+  width: 50px;
+  margin-top: 20px;
 }
 
 .speed-buttons {
@@ -172,6 +172,15 @@ body,
   margin-bottom: 0 !important;
 }
 
+.space {
+  color: white;
+  background: pink;
+  margin: 10px 30px;
+}
+.space:hover {
+  color: white;
+  background: darkmagenta;
+}
 .count-section {
   position: absolute;
   top: 10px;
@@ -215,7 +224,8 @@ body,
 }
 
 .card__number {
-  text-align: left;
+  text-align: center;
+  padding-top: 10px;
   padding-left: 5px;
   /* width: 100%;
   position: absolute;
