@@ -25,6 +25,7 @@
         <span>
           <img class="vue-logo" src="./sparcslogo.png">
         </span>
+        <span class="card__number">{{ card.nickname }}</span>
         <span class="card__number">{{ card.name }}</span>
       </div>
     </transition-group>
@@ -65,6 +66,7 @@ export default {
         let card = {
           id: this.shuffledmembers[i]._id,
           name: this.shuffledmembers[i].text,
+          nickname: this.shuffledmembers[i].nickname,
           clicked: false
         };
         this.cards.push(card);
@@ -205,8 +207,8 @@ body,
 }
 
 .card {
-  width: 100px;
-  height: 150px;
+  width: 120px;
+  height: 180px;
   float: left;
   margin-right: 13px;
   margin-bottom: 13px;

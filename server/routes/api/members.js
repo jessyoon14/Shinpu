@@ -82,13 +82,19 @@ async function loadPostsCollection() {
 
 
 async function loadHistoryCollection() {
-    const client = await mongodb.MongoClient.connect
-        ('mongodb://localhost:27017/shinp'
-            , {
-                useNewUrlParser: true
-            });
+    try {
+        const client = await mongodb.MongoClient.connect
+            ('mongodb://localhost:27017/shinp'
+                , {
+                    useNewUrlParser: true
+                });
 
-    return client.db('shinp').collection('history');
+        return client.db('shinp').collection('history');
+
+    } catch (e) {
+        console.error(e);
+    }
+
 }
 module.exports = router;
 
