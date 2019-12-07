@@ -13,6 +13,11 @@
       </button>
       <button @click="displayInitialDeck" class="button space">처음으로</button>
       <button @click="saveChosen(); makeToast();" class="button space">저장</button>
+      <button
+        @click="toggleoption(); reloaddeck();"
+        class="button tspace togglebutton"
+        v-bind:class="{'white':!this.excludepast, 'pink':this.excludepast}"
+      >청소한 사람 제외</button>
     </div>
     <transition-group :name="shuffleSpeed" tag="div" class="deck">
       <div
@@ -46,7 +51,8 @@ export default {
       error: "",
       shuffledmembers: [],
       chosenmembers: [],
-      shuffleSpeed: "shuffleMedium"
+      shuffleSpeed: "shuffleMedium",
+      excludepast: false
     };
   },
   async created() {
@@ -62,6 +68,7 @@ export default {
     displayInitialDeck() {
       //let id = 1;
       this.cards = [];
+
       for (let i = 0; i < this.shuffledmembers.length; i++) {
         let card = {
           id: this.shuffledmembers[i]._id,
@@ -71,6 +78,24 @@ export default {
         };
         this.cards.push(card);
       }
+    },
+    toggleoption() {
+      console.log("excludepast state is toggled");
+      this.excludepast = !this.excludepast;
+    },
+    async reloaddeck() {
+      this.cards = [];
+
+      console.log("enter reloaddeck");
+      if (this.excludepast) {
+        this.allmembers = await PostService.getToDoMembers();
+        console.log(this.allmembers);
+      } else {
+        this.allmembers = await PostService.getPosts();
+        console.log(this.allmembers);
+      }
+      this.shuffledmembers = this.allmembers;
+      this.displayInitialDeck();
     },
     shuffleDeck() {
       for (let i = 0; i < this.cards.length; i++) {
@@ -108,11 +133,28 @@ export default {
     },
     async saveChosen() {
       //this.$bvToast.show("example-toast");
-      if (this.chosenmembers.length != 0) {
+      console.log(this.chosenmembers);
+      if (this.chosenmembers.length != 0 && this.chosenmembers.length < 8) {
         await PostService.addChosen(this.chosenmembers);
       }
     },
     makeToast(append = false) {
+      if (this.chosenmembers.length == 0) {
+        this.$bvToast.toast("청소 당번을 한 명 이상 골라주세요", {
+          title: "청소 당번를 저장할 수 없습니다",
+          autoHideDelay: 5000,
+          appendToast: append
+        });
+        return;
+      }
+      if (this.chosenmembers.length > 7) {
+        this.$bvToast.toast("청소 당번이 너무 많습니다", {
+          title: "청소 당번은 한 번에 7명까지 저장가능합니다.",
+          autoHideDelay: 5000,
+          appendToast: append
+        });
+        return;
+      }
       var chosenstr = this.chosenmembers[0].text;
       for (let i = 1; i < this.chosenmembers.length; i++) {
         chosenstr = chosenstr + ", " + this.chosenmembers[i].text;
@@ -158,6 +200,21 @@ body,
 .place.pink {
   background-color: #ffe2a3;
 }
+
+.togglebutton.pink {
+  color: white;
+  background: rgb(253, 172, 65);
+}
+
+.tspace {
+  margin: 10px 30px;
+  background-color: #ffffff;
+  color: #333333;
+}
+/* .tspace:hover {
+  color: white;
+  background: #ffc107;
+} */
 
 .vue-logo {
   height: 80px;

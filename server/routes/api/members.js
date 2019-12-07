@@ -11,10 +11,16 @@ router.get('/retrieve', async (req, res) => {
     res.send(await posts.find({}).toArray());
 });
 
+router.get('/retrievetodo', async (req, res) => {
+    const posts = await loadToDoMembersCollection();
+    res.send(await posts.find({}).toArray());
+});
 
 //Add Post
 router.post('/addmember', async (req, res) => {
     const posts = await loadPostsCollection();
+    const todom = await loadToDoMembersCollection();
+
     console.log(req.body.text);
     posts.findOne({ nickname: req.body.nickname }, async (err, user) => {
         if (err) {
@@ -26,11 +32,15 @@ router.post('/addmember', async (req, res) => {
             res.status(998).send();
         }
         else {
-            console.log(req.body.nickname);
+            console.log(req.body.nickname + " reached");
             await posts.insertOne({
                 text: req.body.text,
                 nickname: req.body.nickname,
             });
+            await todom.insertOne({
+                text: req.body.text,
+                nickname: req.body.nickname,
+            })
             res.status(201).send();
         }
     })
@@ -40,12 +50,17 @@ router.post('/addmember', async (req, res) => {
 router.delete('/deletemember/:id', async (req, res) => {
     const posts = await loadPostsCollection();
     await posts.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+
+
+    const todom = await loadToDoMembersCollection();
+    await todom.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+
     res.status(200).send();
 });
 //add chosen member
 router.post('/addchosen', async (req, res) => {
-    const date = new Date();
-    const prettydate = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getDay() + 1);
+    var date = new Date();
+    const prettydate = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + (date.getDate());
     const past = await loadHistoryCollection();
     await past.insertOne({
         createdAt: prettydate,
@@ -61,6 +76,32 @@ router.post('/addchosen', async (req, res) => {
         p10: req.body.p10,
         //createdAt: new Date()
     });
+
+
+    const todom = await loadToDoMembersCollection();
+
+    if (req.body.id1 != "") {
+        await todom.deleteOne({ "nickname": req.body.id1 });
+    }
+    if (req.body.id2 != "") {
+        await todom.deleteOne({ "nickname": req.body.id2 });
+    }
+    if (req.body.id3 != "") {
+        await todom.deleteOne({ "nickname": req.body.id3 });
+    }
+    if (req.body.id4 != "") {
+        await todom.deleteOne({ "nickname": req.body.id4 });
+    }
+    if (req.body.id5 != "") {
+        await todom.deleteOne({ "nickname": req.body.id5 });
+    }
+    if (req.body.id6 != "") {
+        await todom.deleteOne({ "nickname": req.body.id6 });
+    }
+    if (req.body.id7 != "") {
+        await todom.deleteOne({ "nickname": req.body.id7 });
+    }
+
     res.status(201).send();
 });
 
@@ -78,6 +119,16 @@ async function loadPostsCollection() {
             });
 
     return client.db('shinp').collection('members');
+}
+
+async function loadToDoMembersCollection() {
+    const client = await mongodb.MongoClient.connect
+        ('mongodb://localhost:27017/shinp'
+            , {
+                useNewUrlParser: true
+            });
+
+    return client.db('shinp').collection('todomembers');
 }
 
 

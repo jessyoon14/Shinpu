@@ -20,6 +20,23 @@ class PostService {
             }
         })
     }
+
+    static getToDoMembers() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await axios.get(`${url}retrievetodo`);
+                const data = res.data;
+                resolve(
+                    data.map(post => ({
+                        ...post,
+                        createdAt: new Date(post.createdAt)
+                    }))
+                );
+            } catch (err) {
+                reject(err);
+            }
+        })
+    }
     //get history
     static getHistory() {
         return new Promise(async (resolve, reject) => {
@@ -62,15 +79,18 @@ class PostService {
 
     static addChosen(arr) {
         const chosen = [];
+        const chosenid = [];
         if (arr.length === 0) {
             return;
         }
         for (let i = 0; i < arr.length; i++) {
             chosen.push(arr[i].text);
+            chosenid.push(arr[i].nickname);
         }
         if (arr.length < 10) {
             for (let i = 0; i < 10 - arr.length; i++) {
-                chosen.push("")
+                chosen.push("");
+                chosenid.push("");
             }
         }
         // for (let i = 0; i < arr.length; i++) {
@@ -93,6 +113,17 @@ class PostService {
             p8: chosen[7],
             p9: chosen[8],
             p10: chosen[9],
+            id1: chosenid[0],
+            id2: chosenid[1],
+            id3: chosenid[2],
+            id4: chosenid[3],
+            id5: chosenid[4],
+            id6: chosenid[5],
+            id7: chosenid[6],
+            id8: chosenid[7],
+            id9: chosenid[8],
+            id10: chosenid[9],
+
 
         });
     }
