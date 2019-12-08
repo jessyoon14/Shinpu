@@ -68,6 +68,8 @@ export default {
   },
   methods: {
     async createPost() {
+      this.text = this.text.trim();
+      this.nickname = this.nickname.trim();
       if (this.text === "" || this.nickname === "") {
         console.log("please fill in both fields");
         this.$bvToast.toast("이름과 닉네임 둘 다 입력해주세요", {
