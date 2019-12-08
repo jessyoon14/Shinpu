@@ -5,7 +5,7 @@ import axios from 'axios';
 //     :
 //     'http://kong.sparcs.org:8000/members/';
 
-const url = 'http://kong.sparcs.org:8000/members/';
+const url = 'http://kong.sparcs.org:62222/members/';
 class PostService {
     //get Posts
     static getPosts() {
