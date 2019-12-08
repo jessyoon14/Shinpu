@@ -4,7 +4,7 @@
       <div id="rectangle"></div>
       <b-navbar toggleable="lg" type="light">
         <b-navbar-brand to="/">
-          <img class="mylogo" src="./components/sparcslogo.png">
+          <img class="mylogo" src="./sparclean.png">
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
