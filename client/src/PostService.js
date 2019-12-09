@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const url = 'http://kong.sparcs.org:62222/members/';
 class PostService {
-    //get Posts
+    //get Postsc
     static getPosts() {
         return new Promise(async (resolve, reject) => {
             try {
