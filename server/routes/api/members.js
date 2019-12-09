@@ -50,13 +50,16 @@ router.post('/addmember', async (req, res) => {
 router.delete('/deletemember/:id', async (req, res) => {
     const posts = await loadPostsCollection();
     await posts.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+    res.status(200).send();
+});
 
-
+router.delete('/deletememberbynickname/:nickname', async (req, res) => {
     const todom = await loadToDoMembersCollection();
-    await todom.deleteOne({ _id: new mongodb.ObjectID(req.params.id) });
+    await todom.deleteOne({ "nickname": req.params.nickname });
 
     res.status(200).send();
 });
+
 //add chosen member
 router.post('/addchosen', async (req, res) => {
     var date = new Date();

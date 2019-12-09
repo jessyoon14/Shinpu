@@ -80,6 +80,9 @@ class PostService {
     static deletePost(id) {
         return axios.delete(`${url}deletemember/${id}`);
     }
+    static deletePostByNickname(nickname) {
+        return axios.delete(`${url}deletememberbynickname/${nickname}`);
+    }
 
     static addChosen(arr) {
         const chosen = [];

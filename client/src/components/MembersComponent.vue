@@ -31,7 +31,7 @@
         v-bind:index="index"
         v-bind:key="post._id"
         v-bind:name="post.text"
-        v-on:dblclick="deletePost(post._id)"
+        v-on:dblclick="deletePost(post._id, post.nickname)"
         class="card place"
       >
         <!-- <span>
@@ -97,8 +97,10 @@ export default {
       this.text = "";
       this.nickname = "";
     },
-    async deletePost(id) {
+    async deletePost(id, nickname) {
       await PostService.deletePost(id);
+      await PostService.deletePostByNickname(nickname);
+
       this.posts = await PostService.getPosts();
     }
   }
