@@ -68,6 +68,7 @@ export default {
     displayInitialDeck() {
       //let id = 1;
       this.cards = [];
+      this.chosenmembers = [];
 
       for (let i = 0; i < this.shuffledmembers.length; i++) {
         let card = {
