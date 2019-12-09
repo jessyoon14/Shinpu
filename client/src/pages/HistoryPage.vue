@@ -42,4 +42,9 @@ export default {
   width: 85%;
   margin: 30px auto;
 }
+h1 {
+  font-size: 30px;
+  font-weight: 200;
+  color: #666666;
+}
 </style>

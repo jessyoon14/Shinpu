@@ -14,3 +14,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h1 {
+  font-size: 30px;
+  font-weight: 200;
+  color: #666666;
+}
+</style>
