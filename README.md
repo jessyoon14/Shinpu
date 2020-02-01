@@ -9,9 +9,9 @@ server: Express.js
 Click the shuffle button. Can click on wanted members.
 To save, click save button. Cannot save more than 7 members at a time.
 
+
 # View history
 Can view history of past chosen members
-
 
 # Enter new user
 Enter new user with name & nickname.
