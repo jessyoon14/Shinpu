@@ -23,7 +23,7 @@
     "bootstrap-vue": "^2.1.0",
     "cors": "^2.8.5",
     "ejs": "^2.7.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jquery": "^3.4.1",
     "mongodb": "^3.3.4",
     "mongoose": "^5.7.12",
